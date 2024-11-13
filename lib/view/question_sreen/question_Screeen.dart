@@ -15,25 +15,25 @@ class _QuestionScreenState extends State<QuestionScreen> {
   int count = 0;
   int? selectedAnswerIndex;
   int rightAnswerCount = 0;
-  double progress = 0.0; // Progress percentage
+  double progress = 0.0; 
   List questionList = [];
-  Timer? timer; // Timer reference
-  int timeLeft = 10; // Time in seconds for each question
+  Timer? timer; 
+  int timeLeft = 10; 
 
   @override
   void initState() {
     super.initState();
-    Category(); // Populate questions based on category
-    startTimer(); // Start the timer for the first question
+    Category(); 
+    startTimer(); 
   }
 
   @override
   void dispose() {
-    timer?.cancel(); // Ensure timer is cancelled to avoid memory leaks
+    timer?.cancel(); 
     super.dispose();
   }
 
-  // Populate questions based on the selected category
+  
   void Category() {
     switch (widget.category) {
       case "Sports":
@@ -57,10 +57,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
     }
   }
 
-  // Start or restart the timer
+  
   void startTimer() {
-    timer?.cancel(); // Cancel any existing timer
-    timeLeft = 10; // Reset time for the new question
+    timer?.cancel(); 
+    timeLeft = 10; 
 
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -68,19 +68,19 @@ class _QuestionScreenState extends State<QuestionScreen> {
           timeLeft--;
         } else {
           timer.cancel();
-          goToNextQuestion(); // Move to next question when time is up
+          goToNextQuestion(); 
         }
       });
     });
   }
 
-  // Navigate to the next question or show the result screen
+  
   void goToNextQuestion() {
     if (count < questionList.length - 1) {
       setState(() {
         count++;
-        selectedAnswerIndex = null; // Reset selection
-        startTimer(); // Restart timer for the next question
+        selectedAnswerIndex = null; 
+        startTimer(); 
       });
     } else {
       Navigator.pushReplacement(
@@ -94,7 +94,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
     }
   }
 
-  // Update progress whenever a correct answer is selected
+  
   void updateProgress() {
     setState(() {
       progress = rightAnswerCount / questionList.length;
@@ -118,9 +118,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           children: [
-            // Timer Display
+            
             Text(
-              "Time Left: $timeLeft s", // Show the timer prominently
+              "Time Left: $timeLeft s", 
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -129,16 +129,16 @@ class _QuestionScreenState extends State<QuestionScreen> {
             ),
             const SizedBox(height: 10),
 
-            // Progress Indicator
+          
             LinearProgressIndicator(
-              value: progress, // Show progress as percentage
+              value: progress, 
               minHeight: 8,
               backgroundColor: Colors.grey[300],
               color: Colors.blue,
             ),
             const SizedBox(height: 20),
 
-            // Question Box
+            
             Expanded(
               child: Stack(
                 children: [
@@ -163,7 +163,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
               ),
             ),
 
-            // Options
+            
             Column(
               children: List.generate(
                 questionList[count]["options"].length,
@@ -177,10 +177,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
                           if (index == questionList[count]["answer index"]) {
                             rightAnswerCount++;
-                            updateProgress(); // Update progress if correct
+                            updateProgress(); 
                           }
                         });
-                        timer?.cancel(); // Cancel the timer on answer selection
+                        timer?.cancel(); 
                       }
                     },
                     child: Container(
@@ -219,7 +219,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
             const SizedBox(height: 20),
 
-            // Next Button
+            
             if (selectedAnswerIndex != null)
               InkWell(
                 onTap: goToNextQuestion,
@@ -249,14 +249,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
     );
   }
 
-  // Get the color based on the selected answer
+  
   Color getColor(int optionIndex) {
     if (selectedAnswerIndex != null &&
         optionIndex == questionList[count]["answer index"]) {
-      return Colors.green; // Correct answer
+      return Colors.green; 
     }
     if (selectedAnswerIndex == optionIndex) {
-      return Colors.red; // Wrong answer
+      return Colors.red; 
     }
     return Colors.grey; 
   }
