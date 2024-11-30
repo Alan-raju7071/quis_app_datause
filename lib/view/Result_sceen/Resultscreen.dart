@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quis_app_datause/view/DummyDp.dart';
 import 'package:quis_app_datause/view/home_screen/home_screen.dart';
-import 'package:quis_app_datause/view/question_sreen/question_Screeen.dart';
+
 
 
 class ResultScreen extends StatefulWidget {
